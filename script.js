@@ -34,9 +34,10 @@ fetch(url)
   
 
     myButton.addEventListener('click', () => {
-        const url = { token: "http://127.0.0.1:3000/posts/login" }
+        const url = { site: "http://127.0.0.1:3000/posts/login" }
+        console.log(url.site)
 
-        fetch(url.token, {
+        fetch(url.site, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -46,7 +47,7 @@ fetch(url)
             .then(res => res.json())
             .then(data => {
                 tokenData = data
-                //console.log(tokenData.token)
+                console.log(tokenData.token)
             })
             
     })
@@ -64,13 +65,18 @@ fetch(url)
 
        const formData = new FormData(myForm)
 
+       //the secret key and token are connected.
+       //console.log(tokenData.token)
+       const myToken = tokenData.token
+       console.log(myToken)
+
        // let urlTwo = 'http://127.0.0.1:3000/posts/2';
        let urlTwo = 'http://127.0.0.1:3000/posts';
         fetch(urlTwo, {
             method: 'POST',
-            credentials: 'include',
+            credentials: 'omit',
             mode: "cors",
-            headers: { 'Authorization': tokenData.token, 'Content-Type': 'application/json' },
+            headers: { 'Authorization': myToken, 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         })
         .then(response => {
