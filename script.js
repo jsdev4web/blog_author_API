@@ -55,7 +55,7 @@ fetch(url)
 
     //this code handles the for data fetch call
     const myForm = document.getElementById('myAuthForm').addEventListener('submit', function(event){
-        event.preventDefault();
+        //event.preventDefault();
 
         let title = document.getElementById("title").value
         let content = document.getElementById("content").value
