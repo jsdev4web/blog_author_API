@@ -1,0 +1,26 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="./scriptDelete.js" defer></script> 
+    <title>Delete Post</title>
+</head>
+<body>
+    <h1>Delete Post</h1>
+
+    <button id="updateLogon" >Login Button</button>
+    
+<!--I need to send the form data to authScript.js?  then fetch the backend 1st    -->
+  <!--  <form action="127.0.0.1:3000/posts/update/postId" id="myUpdateForm" method="POST">   --> 
+    <form action="/deletePost" id="myDeleteForm" method="POST"> 
+        <input type="hidden" name="_method" value="DELETE"><br>
+        <label for="delete">Authenticate then delete:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <br><br>
+        <button type="submit">Submit Delete</button>
+    </form>
+</body>
+</html>

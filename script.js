@@ -1,38 +1,46 @@
-
-const url = 'http://127.0.0.1:3000'
+//ip address of the post API
+const url = 'http://127.0.0.1:3000/posts/'
 console.log(url)
 
-
-// this is grabbing all of my current post from the server as a test
+//Fetch all the posts inerate the objects
 fetch(url)
     .then(response => response.json())
     .then(data => {
-        a = data;
-        console.log(a)
-        
-        let myDiv = document.createElement("div")
-        console.log(myDiv)
+        console.log(data)
+
+        let myDiv = document.createElement("div");
+        let spacer = document.createElement("br");
         document.body.append(myDiv)
+        const ul = document.createElement('ul');
+        //list each object in this manner
+        data.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.setAttribute('id', 'liPost')
 
-        Object.keys(a).forEach(item => {
-            let list = document.createElement("div")
-            let space = document.createElement("br")
-            list.innerHTML = ` ${item}: ${a[item]}`
-            console.log(list)
-            myDiv.appendChild(space)
-            myDiv.appendChild(list)
-        });
-
-        
-        //myDiv.innerHTML = JSON.stringify(a)
+            listItem.innerHTML = `
+            title: ${item.title}
+            <br>
+            content: ${item.content}<br>
+            
+            <a href="update.html?id=${item.id}"><button>Update</button><br><a/>
+            <a href="delete.html?id=${item.id}"><button>Delete</button><br><a/>
+            `
+            //<a id="deleteBtn" href="http://127.0.0.1:3000/posts/delete/:${item.id}/"><button>Delete</button><a/>
+            ul.append(listItem)
+        })
+        myDiv.appendChild(ul)
     })
     .catch(error => console.log(error))
     
+    
 
+    //makes a variable for the login button
     const myButton = document.getElementById('myLink')
+    //create variable to grab the token data
     let tokenData;
+    let updateToken;
   
-
+    // Button listener to fetch login token data
     myButton.addEventListener('click', () => {
         const url = { site: "http://127.0.0.1:3000/posts/login" }
         console.log(url.site)
@@ -48,36 +56,48 @@ fetch(url)
             .then(data => {
                 tokenData = data
                 console.log(tokenData.token)
+                updateToken = tokenData.token
             })
             
     })
     
 
-    //this code handles the for data fetch call
-    const myForm = document.getElementById('myAuthForm').addEventListener('submit', function(event){
-        //event.preventDefault();
-
-        let title = document.getElementById("title").value
-        let content = document.getElementById("content").value
-        let published = document.getElementById("published").value
-
-        console.log(title, content, published)
-
+    //Post Create with Fetch call from index.html
+    const myForm = document.getElementById('myForm')
+    //listen to the submit click for create post
+    myForm.addEventListener('submit', function(event){
+        //prevents default submit behavior
+        event.preventDefault();
+        // i needed to initialize var for input below
+        let published;
+        //make sure form works
+        console.log(myForm)
+        //I am not using this but makes form submit into objects
        const formData = new FormData(myForm)
+       console.log(formData)
+        // test if the data is working correctly 
+       console.log(formData.get('title'))
+       console.log(formData.get('content'))
+       console.log(formData.get('published'))
+        // make the right variables so i can add variables in fetch data
+       let title = formData.get('title');
+       let content = formData.get('content')
+       //let published = formData.get('published')
+       published = (published === formData.get('published'))
+
 
        //the secret key and token are connected.
-       //console.log(tokenData.token)
        const myToken = tokenData.token
        console.log(myToken)
 
-       // let urlTwo = 'http://127.0.0.1:3000/posts/2';
-       let urlTwo = 'http://127.0.0.1:3000/posts';
+          let urlTwo = 'http://127.0.0.1:3000/posts';
         fetch(urlTwo, {
             method: 'POST',
             credentials: 'omit',
             mode: "cors",
             headers: { 'Authorization': myToken, 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            //body: JSON.stringify(formData) was coming from formData
+            body: JSON.stringify({ title: title, content: content, published: published })
         })
         .then(response => {
             if(!response.ok){
@@ -88,5 +108,7 @@ fetch(url)
         .then(data => {
             console.log(data)
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error:', error)); 
     })
+
+

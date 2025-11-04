@@ -1,21 +1,23 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="script.js" defer></script> 
-    <title>Author Admin</title>
+    <script type="module" src="./scriptUpdate.js" defer></script> 
+    <title>Update Post</title>
 </head>
 <body>
-    <h1>Login Here To Post</h1>
+    <h1>Update Post</h1>
 
-    <button id="myLink" >Login Button</button>
-    <br>
+    <button id="updateLogon" >Login Button</button>
     
-<!--I need to send the form data to authScript.js?  then fetch the backend 1st -->
-    <form action="127.0.0.1:3000/posts" id="myForm" method="POST">
-   <!--  <form id="myForm">  -->
+<!--I need to send the form data to authScript.js?  then fetch the backend 1st    -->
+  <!--  <form action="127.0.0.1:3000/posts/update/postId" id="myUpdateForm" method="POST">   --> 
+    <form action="/submit" id="myUpdateForm" method="POST"> 
+        <input type="hidden" name="_method" value="PUT">
         <label for="title">Title:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <input type="text" name="title" id="title" required><br>
         <label for="content">Content:&nbsp;</label>
@@ -25,6 +27,5 @@
         <br><br>
         <button type="submit">Submit Data</button>
     </form>
-
 </body>
 </html>
